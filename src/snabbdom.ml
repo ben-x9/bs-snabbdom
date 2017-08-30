@@ -7,3 +7,4 @@ module Hooks = Snabbdom_hooks
 module VNode = Snabbdom_vnode
 module Data = Snabbdom_data
 module Dom = Snabbdom_dom
+module Helpers = Snabbdom_helpers
