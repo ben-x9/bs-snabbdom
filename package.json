@@ -4,7 +4,7 @@
   "description": "Bucklescript bindings to Snabbdom",
   "main": "index.js",
   "scripts": {
-    "install": "npm run build",
+    "postinstall": "npm run build",
     "build": "bsb -make-world && rollup --config",
     "dev": "./scripts/dev_watch.sh",
     "docs": "ocamldoc -html -d docs -I ./lib/bs/src -I ./node_modules/bs-platform/lib/ocaml ./src/*.mli",
