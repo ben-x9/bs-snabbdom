@@ -46,7 +46,7 @@ let h selector (transformers: vnode_transformer list) : vnode =
      (if is_svg then (
         recursively_set_namespace "http://www.w3.org/2000/svg" vnode;
         ()
-    ) else ()); 
+    ) else ());
     vnode
 
 let text_vnode t =
@@ -80,7 +80,7 @@ let key (key:string) vnode =
     VNode.set_key vnode key;
     vnode
 
-let nothing (a:vnode) = a 
+let nothing (a:vnode) = a
 
 (* Attribute module *)
 external module_attributes : snabbdom_module = "default" [@@bs.module "snabbdom/modules/attributes"]
@@ -89,6 +89,10 @@ let attr key (value:string) = VNode.set_in_data [|"attrs"; key|] value
 (* Class module *)
 external module_class : snabbdom_module = "default" [@@bs.module "snabbdom/modules/class"]
 let class_name key = VNode.set_in_data [|"class"; key|] Js.true_
+let klass names = fun vnode -> Js.Array.reduce
+    (fun vnode name -> class_name name vnode)
+    vnode
+    (Js.String.split " " names)
 
 (* Style module *)
 external module_style : snabbdom_module = "default" [@@bs.module "snabbdom/modules/style"]

@@ -9,7 +9,7 @@ type patchfn = Snabbdom_vnode.t -> Snabbdom_vnode.t -> unit
 (** This type refers to a Snabbdom Module. Any
     modules with this type can be passed to `init` to
     create a patching function.
-    
+
     {{:https://github.com/snabbdom/snabbdom#modules-documentation} See the Snabbdom documentation for details on modules}
 
     If you've built a custom module, you can define it using:
@@ -64,6 +64,7 @@ val attr : string -> string -> Snabbdom_vnode.transformer
 
 val module_class : snabbdom_module
 val class_name : string -> Snabbdom_vnode.transformer
+val klass : string -> Snabbdom_vnode.transformer
 
 val module_style : snabbdom_module
 val style : string -> string -> Snabbdom_vnode.transformer
