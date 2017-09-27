@@ -13,8 +13,11 @@ external preventDefault : Dom.event_like 'a => unit =
 external getTarget : Dom.event_like 'a => Dom.eventTarget_like 'a =
   "target" [@@bs.get];
 
-external getEventKey : Dom.keyboardEvent => string =
+external getKey : Dom.keyboardEvent => string =
   "key" [@@bs.get];
+
+external getKeyCode : Dom.keyboardEvent => int =
+  "keyCode" [@@bs.get];
 
 external getValue : Dom.eventTarget_like 'a => string =
   "value" [@@bs.get];

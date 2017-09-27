@@ -16,6 +16,7 @@ let eventListener key cb => VNode.setInData [|"on", key|] cb;
 let event event (cb: eventCb Dom.event) => eventListener event cb;
 let onChange = event "change";
 let onInput = event "input";
+let onBlur = event "blur";
 
 let mouse event (cb: eventCb Dom.mouseEvent) => eventListener event cb;
 
@@ -28,6 +29,8 @@ let keyboard event (cb: eventCb Dom.keyboardEvent) => eventListener event cb;
 let onKeyDown = keyboard "keydown";
 let onKeyUp = keyboard "keyup";
 let onKeyPress = keyboard "keypress";
+let onPressEnter (cb: eventCb Dom.keyboardEvent) =>
+  onKeyPress (fun e => if (SnabbdomDom.getKeyCode e == 13) {cb e});
 
 let drag event (cb: eventCb Dom.dragEvent) => eventListener event cb;
 let onDragEnter = drag "dragenter";

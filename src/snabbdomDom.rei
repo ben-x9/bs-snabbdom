@@ -10,6 +10,7 @@ let stopPropagation: Dom.event_like 'a => unit;
 let preventDefault: Dom.event_like 'a => unit;
 let getTarget: Dom.event_like 'a => Dom.eventTarget_like 'a;
 let getValue: Dom.eventTarget_like 'a => string;
-let getEventKey: Dom.keyboardEvent => string;
+let getKey: Dom.keyboardEvent => string;
+let getKeyCode: Dom.keyboardEvent => int;
 let isChecked: Dom.eventTarget_like 'a => bool;
 let setTimeout: (unit => unit) => int => int;
