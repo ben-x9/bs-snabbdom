@@ -22,32 +22,32 @@ let empty () :t => {
   "key": Js.undefined
 };
 
-external unsafe_set_children : t => 'a => unit = "children" [@@bs.set];
+external unsafeSetChildren : t => 'a => unit = "children" [@@bs.set];
 
-external set_sel : t => string => unit = "sel" [@@bs.set];
-external set_data : t => Data.t => unit = "data" [@@bs.set];
-external set_children : t => array t => unit = "children" [@@bs.set];
-external set_text : t => string => unit = "text" [@@bs.set];
-external set_key : t => string => unit = "key" [@@bs.set];
-let clear_text vnode => unsafe_set_children vnode Js.undefined;
+external setSel : t => string => unit = "sel" [@@bs.set];
+external setData : t => Data.t => unit = "data" [@@bs.set];
+external setChildren : t => array t => unit = "children" [@@bs.set];
+external setText : t => string => unit = "text" [@@bs.set];
+external setKey : t => string => unit = "key" [@@bs.set];
+let clearText vnode => unsafeSetChildren vnode Js.undefined;
 
-external unsafe_get_data : t => Data.t = "data" [@@bs.get];
-external get_children : t => option (array t) =
+external unsafeGetData : t => Data.t = "data" [@@bs.get];
+external getChildren : t => option (array t) =
   "children" [@@bs.get] [@@bs.return null_undefined_to_opt];
-external get_elm : t => option Dom.element =
+external getElm : t => option Dom.element =
   "elm" [@@bs.get] [@@bs.return null_undefined_to_opt];
-external get_text : t => option string =
+external getText : t => option string =
   "text" [@@bs.get] [@@bs.return null_undefined_to_opt];
-external of_dom_element : Dom.element => t = "%identity";
+external ofDomElement : Dom.element => t = "%identity";
 
-let set_in_data path value vnode => {
-  set_data vnode (Data.set_in_path (unsafe_get_data vnode) path value);
+let setInData path value vnode => {
+  setData vnode (Data.setInPath (unsafeGetData vnode) path value);
   vnode
 };
 
-exception Element_with_id_not_found string;
-let from_dom_id dom_id =>
-  switch (SnabbdomDom.get_element_by_id SnabbdomDom.document dom_id) {
-  | None => raise (Element_with_id_not_found dom_id)
-  | Some x => of_dom_element x
+exception ElementWithIdNotFound string;
+let fromDomId domId =>
+  switch (SnabbdomDom.getElementById SnabbdomDom.document domId) {
+  | None => raise (ElementWithIdNotFound domId)
+  | Some x => ofDomElement x
   };

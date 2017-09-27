@@ -10,16 +10,16 @@ type t;
 type transformer = t => t;
 
 let empty: unit => t;
-let set_sel: t => string => unit;
-let set_data: t => SnabbdomData.t => unit;
-let set_children: t => array t => unit;
-let set_text: t => string => unit;
-let set_key: t => string => unit;
-let clear_text: t => unit;
+let setSel: t => string => unit;
+let setData: t => SnabbdomData.t => unit;
+let setChildren: t => array t => unit;
+let setText: t => string => unit;
+let setKey: t => string => unit;
+let clearText: t => unit;
 
-let get_children: t => option (array t);
-let get_elm: t => option Dom.element;
-let get_text: t => option string;
+let getChildren: t => option (array t);
+let getElm: t => option Dom.element;
+let getText: t => option string;
 
 /**
  * Sets an object property somewhere in the vnode data object.Pass an array of
@@ -32,11 +32,10 @@ let get_text: t => option string;
  * {[vnode.data.ns = "xyz"]}
  *
  * Use:
- * {[let vnode = set_in_data \[|"ns"|\] "xyz" vnode]}
+ * {[let vnode = setInData \[|"ns"|\] "xyz" vnode]}
  */
 
-let set_in_data:
-  array string => 'a => t => t;
+let setInData: array string => 'a => t => t;
 
 
 /**
@@ -44,14 +43,14 @@ let set_in_data:
  * element id that does not exist.
  */
 
-exception Element_with_id_not_found string;
+exception ElementWithIdNotFound string;
 
 /**
  * Create a VNode from an element in the DOM with the specified id.
  * This function may raise an {!exception:Element_with_id_not_found} exception.
  */
 
-let from_dom_id: string => t;
+let fromDomId: string => t;
 
 /**
  * Compile-time conversion of DOM elements to a Snabbdom vnode.
@@ -62,4 +61,4 @@ let from_dom_id: string => t;
  * doing.
  */
 
-let of_dom_element: Dom.element => t;
+let ofDomElement: Dom.element => t;

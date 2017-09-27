@@ -1,6 +1,6 @@
 module VNode = SnabbdomVnode;
 
-let hook key cb => VNode.set_in_data [|"hook", key|] cb;
+let hook key cb => VNode.setInData [|"hook", key|] cb;
 let hook0 key (cb: unit => unit) => hook key cb;
 let hook1 key (cb: VNode.t => unit) => hook key cb;
 let hook2 key (cb: VNode.t => VNode.t => unit) => hook key cb;
@@ -14,13 +14,13 @@ let update cb => hook2 "update" cb;
 let postpatch cb => hook2 "postpatch" cb;
 let destroy cb => hook1 "destroy" cb;
 
-type remove_callback = unit => unit;
-let remove (cb: VNode.t => remove_callback => unit) => hook "remove" cb;
+type removeCallback = unit => unit;
+let remove (cb: VNode.t => removeCallback => unit) => hook "remove" cb;
 
 let post cb => hook0 "post" cb;
 
 let autofocus = insert (fun vnode =>
-  switch (VNode.get_elm vnode) {
+  switch (VNode.getElm vnode) {
   | Some elm => SnabbdomDom.focus elm
   | None => ()
   }

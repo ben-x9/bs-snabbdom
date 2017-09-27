@@ -1,10 +1,10 @@
 type t;
 
-type data_val;
-external to_data_val : 'a => data_val = "%identity";
+type dataVal;
+external toDataVal : 'a => dataVal = "%identity";
 
-let raw_empty: unit => t = [%bs.raw {|function() { return {} } |}];
-let raw_set_in_path: t => array string => data_val => t =
+let rawEmpty: unit => t = [%bs.raw {|function() { return {} } |}];
+let rawSetInPath: t => array string => dataVal => t =
   [%bs.raw {|
     function(data, path, value){
       var base = data || {};
@@ -22,6 +22,6 @@ let raw_set_in_path: t => array string => data_val => t =
     }
   |}];
 
-let empty () => raw_empty ();
-let set_in_path data path value =>
-  raw_set_in_path data path (to_data_val value);
+let empty () => rawEmpty ();
+let setInPath data path value =>
+  rawSetInPath data path (toDataVal value);

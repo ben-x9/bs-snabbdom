@@ -42,4 +42,4 @@ let empty: unit => t;
  * Use:
  * {[let data = set_in_path data \[|"style"; "color"|\] "#000"]}
 */
-let set_in_path: t => array string => 'a => t;
+let setInPath: t => array string => 'a => t;

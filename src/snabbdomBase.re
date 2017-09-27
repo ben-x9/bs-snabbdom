@@ -5,31 +5,31 @@ module Data = SnabbdomData;
 
 type vnode = VNode.t;
 type patchfn = VNode.t => VNode.t => unit;
-type snabbdom_module;
+type snabbdomModule;
 
-external init : array snabbdom_module =>
+external init : array snabbdomModule =>
   patchfn = "init" [@@bs.module "snabbdom"];
 
 /* ==== Transformers ====  */
 /* General */
-let namespace ns => VNode.set_in_data [|"ns"|] ns;
-type vnode_transformer = vnode => vnode;
+let namespace ns => VNode.setInData [|"ns"|] ns;
+type vnodeTransformer = vnode => vnode;
 
-let rec recursively_set_namespace ns (vnode: vnode) :unit => {
+let rec recursivelySetNamespace ns (vnode: vnode) : unit => {
   let vnode = namespace ns vnode;
-  switch (VNode.get_children vnode) {
-  | Some children => Array.iter (recursively_set_namespace ns) children
+  switch (VNode.getChildren vnode) {
+  | Some children => Array.iter (recursivelySetNamespace ns) children
   | None => ()
   }
 };
 
-let h selector (transformers: list vnode_transformer) :vnode => {
+let h selector (transformers: list vnodeTransformer) : vnode => {
   /* Start with a blank vnode */
   let vnode = VNode.empty ();
-  VNode.set_sel vnode selector;
+  VNode.setSel vnode selector;
 
   /* Now run through all the transformers provided to set up the vnode */
-  let transform (vnode: vnode) (transformer: vnode_transformer) => transformer vnode;
+  let transform (vnode: vnode) (transformer: vnodeTransformer) => transformer vnode;
   let vnode =
     List.fold_left
       transform
@@ -37,7 +37,7 @@ let h selector (transformers: list vnode_transformer) :vnode => {
       transformers;
 
   /* Need to know if the node is an SVG so we can add the XML namespace */
-  let is_svg =
+  let isSvg =
     switch (String.length selector) {
     | len when len === 3 => selector === "svg"
     | len when len >= 4 =>
@@ -48,8 +48,8 @@ let h selector (transformers: list vnode_transformer) :vnode => {
       }
     | _ => false
     };
-  if is_svg {
-    recursively_set_namespace "http://www.w3.org/2000/svg" vnode;
+  if isSvg {
+    recursivelySetNamespace "http://www.w3.org/2000/svg" vnode;
     ()
   } else {
     ()
@@ -57,62 +57,62 @@ let h selector (transformers: list vnode_transformer) :vnode => {
   vnode
 };
 
-let text_vnode t => {
+let textVnode t => {
   let node = VNode.empty ();
-  VNode.set_text node t;
+  VNode.setText node t;
   node
 };
 
-let children (new_children: list vnode) vnode :vnode => {
-  switch (VNode.get_children vnode, VNode.get_text vnode) {
+let children (newChildren: list vnode) vnode : vnode => {
+  switch (VNode.getChildren vnode, VNode.getText vnode) {
   | (None, Some t) =>
-    VNode.clear_text vnode;
-    VNode.set_children vnode (Array.of_list ([text_vnode t] @ new_children))
+    VNode.clearText vnode;
+    VNode.setChildren vnode (Array.of_list ([textVnode t] @ newChildren))
   | (Some children, None) =>
-    VNode.set_children vnode
-      (Array.append children (Array.of_list new_children))
-  | (None, None) => VNode.set_children vnode (Array.of_list new_children)
+    VNode.setChildren vnode
+      (Array.append children (Array.of_list newChildren))
+  | (None, None) => VNode.setChildren vnode (Array.of_list newChildren)
   | _ => raise Not_supported
   };
   vnode
 };
 
-let text new_text vnode :vnode => {
-  switch (VNode.get_children vnode) {
+let text new_text vnode : vnode => {
+  switch (VNode.getChildren vnode) {
   | Some children =>
-    VNode.set_children vnode (Array.append children [|text_vnode new_text|])
-  | None => VNode.set_text vnode new_text
+    VNode.setChildren vnode (Array.append children [|textVnode new_text|])
+  | None => VNode.setText vnode new_text
   };
   vnode
 };
 
 let key (key: string) vnode => {
-  VNode.set_key vnode key;
+  VNode.setKey vnode key;
   vnode
 };
 
 let nothing (a: vnode) => a;
 
 /* Attribute module */
-external module_attributes : snabbdom_module =
+external moduleAttributes : snabbdomModule =
   "default" [@@bs.module "snabbdom/modules/attributes"];
-let attr key (value: string) => VNode.set_in_data [|"attrs", key|] value;
+let attr key (value: string) => VNode.setInData [|"attrs", key|] value;
 let value = attr "value";
 
 /* Class module */
-external module_class : snabbdom_module =
+external moduleClass : snabbdomModule =
   "default" [@@bs.module "snabbdom/modules/class"];
-let class_name key => VNode.set_in_data [|"class", key|] Js.true_;
+let class_name key => VNode.setInData [|"class", key|] Js.true_;
 let css names vnode =>
   Js.Array.reduce
     (fun vnode name => class_name name vnode) vnode (Js.String.split " " names);
 
 /* Style module */
-external module_style : snabbdom_module =
+external moduleStyle : snabbdomModule =
   "default" [@@bs.module "snabbdom/modules/style"];
 let style style_attr (value: string) =>
-   VNode.set_in_data [|"style", style_attr|] value;
-let style_delayed style_attr (value: string) =>
-  VNode.set_in_data [|"style", "delayed", style_attr|] value;
-let style_remove style_attr (value: string) =>
-  VNode.set_in_data [|"style", "remove", style_attr|] value;
+   VNode.setInData [|"style", style_attr|] value;
+let styleDelayed style_attr (value: string) =>
+  VNode.setInData [|"style", "delayed", style_attr|] value;
+let styleRemove style_attr (value: string) =>
+  VNode.setInData [|"style", "remove", style_attr|] value;

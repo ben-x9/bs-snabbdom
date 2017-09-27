@@ -5,10 +5,10 @@ open Snabbdom.Dom;
 module Store = Snabbdom.SimpleStore;
 
 let patch = init [|
-  module_props,
-  module_attributes,
-  module_eventlisteners,
-  module_style
+  moduleProps,
+  moduleAttributes,
+  moduleEventlisteners,
+  moduleStyle
 |];
 
 type action =
@@ -36,7 +36,7 @@ let checkbox (checked: bool) onCheck (label_text: string) =>
   h "label" [
     children [
       h "input" [
-        change onCheck,
+        onChange onCheck,
         prop "type" "checkbox",
         prop "checked" (if checked {"checked"} else {""})
       ],
@@ -51,12 +51,12 @@ let item store s => {
     style "line-height" "0",
     style "opacity" "1",
     style "transition" "line-height 0.3s, opacity 0.3s",
-    style_delayed "line-height" "1",
-    style_remove "line-height" "0",
-    style_remove "opacity" "0",
+    styleDelayed "line-height" "1",
+    styleRemove "line-height" "0",
+    styleRemove "opacity" "0",
     children [
       h "td" [
-        children [h "a" [prop "href" "javascript:;", mousemove del, text s]]
+        children [h "a" [prop "href" "javascript:;", onMouseMove del, text s]]
       ]
     ]
   ]
@@ -65,26 +65,26 @@ let item store s => {
 let view store => {
   let state = Store.get_state store;
   let cb action ev => {
-    prevent_default ev;
-    stop_propagation ev;
+    preventDefault ev;
+    stopPropagation ev;
     Store.dispatch store action
   };
   let onChange ev =>
     next_tick (
       fun () => {
-        let value = ev |> get_target |> get_value;
+        let value = ev |> getTarget |> getValue;
         Store.dispatch store (SetText value)
       }
     );
   let onCheck ev => {
-    let value = ev |> get_target |> is_checked;
+    let value = ev |> getTarget |> isChecked;
     Store.dispatch store (ToggleShow value)
   };
   h "div" [
     children [
       h "h1" [text ("Count: " ^ string_of_int state.count)],
-      h "button" [click (cb Increment), text "+"],
-      h "button" [click (cb Decrement), text "-"],
+      h "button" [onClick (cb Increment), text "+"],
+      h "button" [onClick (cb Decrement), text "-"],
       h "p" [
         children [h "strong" [text "bs-snabbdom"]],
         text " demo. ",
@@ -95,11 +95,11 @@ let view store => {
           h
             "input"
             [
-              keydown onChange,
+              onKeyDown onChange,
               prop "placeholder" "Type something, click Add",
               prop "value" state.name
             ],
-          h "button" [click (cb AddItem), text "Add"]
+          h "button" [onClick (cb AddItem), text "Add"]
         ]
       ],
       checkbox state.show_items onCheck "Show item list",
@@ -129,7 +129,7 @@ let view store => {
 
 exception No_root_element;
 
-let vnode = ref (Snabbdom.VNode.from_dom_id "app");
+let vnode = ref (Snabbdom.VNode.fromDomId "app");
 
 let reducer state action =>
   switch action {
