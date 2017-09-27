@@ -1,4 +1,4 @@
-module VNode = Snabbdom_vnode;
+module VNode = SnabbdomVnode;
 
 let hook key cb => VNode.set_in_data [|"hook", key|] cb;
 let hook0 key (cb: unit => unit) => hook key cb;
@@ -21,7 +21,7 @@ let post cb => hook0 "post" cb;
 
 let autofocus = insert (fun vnode =>
   switch (VNode.get_elm vnode) {
-  | Some elm => Snabbdom_dom.focus elm
+  | Some elm => SnabbdomDom.focus elm
   | None => ()
   }
 );

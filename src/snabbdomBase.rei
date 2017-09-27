@@ -3,7 +3,7 @@
 exception Not_supported;
 
 /* A Snabbdom patch function (returned by `init`) which takes an old DOM element or vnode and patches it to match a new vnode */
-type patchfn = Snabbdom_vnode.t => Snabbdom_vnode.t => unit;
+type patchfn = SnabbdomVnode.t => SnabbdomVnode.t => unit;
 
 /* This type refers to a Snabbdom Module. Any
     modules with this type can be passed to `init` to
@@ -28,7 +28,7 @@ let init: array snabbdom_module => patchfn;
     The first parameter is the same as Snabbdom's - an html selector describing the element
     type and any classes/id to apply to the element.
 
-    The second parameter takes a list of {!type:Snabbdom_vnode.transformer} functions, which
+    The second parameter takes a list of {!type:SnabbdomVnode.transformer} functions, which
     specify how to create the vnode. Some transformers are implemented in this
     module below.
 
@@ -40,34 +40,34 @@ let init: array snabbdom_module => patchfn;
     */
 
 let h:
-  string => list Snabbdom_vnode.transformer => Snabbdom_vnode.t; /* Add child vnodes */
+  string => list SnabbdomVnode.transformer => SnabbdomVnode.t; /* Add child vnodes */
 
 let children:
-  list Snabbdom_vnode.t => Snabbdom_vnode.transformer; /* Adds text to the body of the node */
+  list SnabbdomVnode.t => SnabbdomVnode.transformer; /* Adds text to the body of the node */
 
 let text:
-  string => Snabbdom_vnode.transformer; /* Sets the Snabbdom key for this node. Use this on
+  string => SnabbdomVnode.transformer; /* Sets the Snabbdom key for this node. Use this on
     lists of items to help Snabbdom reconcile the old
     and new nodes and reuse nodes that belong to the
     same key when reordering the list. */
 
 let key:
-  string => Snabbdom_vnode.transformer; /* Don't transform the {!type:Snabbdom_vnode.t}. Can be useful for if statements:
+  string => SnabbdomVnode.transformer; /* Don't transform the {!type:SnabbdomVnode.t}. Can be useful for if statements:
 
     {[if is_active then class_name "is-active" else nothing]}
 */
 
-let nothing: Snabbdom_vnode.transformer;
+let nothing: SnabbdomVnode.transformer;
 
 let module_attributes: snabbdom_module;
-let attr: string => string => Snabbdom_vnode.transformer;
-let value: string => Snabbdom_vnode.transformer;
+let attr: string => string => SnabbdomVnode.transformer;
+let value: string => SnabbdomVnode.transformer;
 
 let module_class: snabbdom_module;
-let class_name: string => Snabbdom_vnode.transformer;
-let css: string => Snabbdom_vnode.transformer;
+let class_name: string => SnabbdomVnode.transformer;
+let css: string => SnabbdomVnode.transformer;
 
 let module_style: snabbdom_module;
-let style: string => string => Snabbdom_vnode.transformer;
-let style_delayed: string => string => Snabbdom_vnode.transformer;
-let style_remove: string => string => Snabbdom_vnode.transformer;
+let style: string => string => SnabbdomVnode.transformer;
+let style_delayed: string => string => SnabbdomVnode.transformer;
+let style_remove: string => string => SnabbdomVnode.transformer;

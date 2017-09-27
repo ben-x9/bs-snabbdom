@@ -1,12 +1,12 @@
-open Snabbdom_base;
-module VNode = Snabbdom_vnode;
+open SnabbdomBase;
+module VNode = SnabbdomVnode;
 
 external module_eventlisteners : snabbdom_module =
   "default" [@@bs.module "snabbdom/modules/eventlisteners"];
 
 /* Helper for waiting until post-render before calling a callback */
 let next_tick cb => {
-  let _ = Snabbdom_dom.set_timeout cb 0;
+  let _ = SnabbdomDom.set_timeout cb 0;
   ()
 };
 

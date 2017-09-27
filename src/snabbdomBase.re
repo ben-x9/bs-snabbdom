@@ -1,7 +1,7 @@
 /* Use the external Snabbdom bindings via Ex */
 exception Not_supported;
-module VNode = Snabbdom_vnode;
-module Data = Snabbdom_data;
+module VNode = SnabbdomVnode;
+module Data = SnabbdomData;
 
 type vnode = VNode.t;
 type patchfn = VNode.t => VNode.t => unit;

@@ -2,7 +2,7 @@ open Snabbdom.Base;
 open Snabbdom.Props;
 open Snabbdom.Events;
 open Snabbdom.Dom;
-module Store = Snabbdom.Simple_store;
+module Store = Snabbdom.SimpleStore;
 
 let patch = init [|
   module_props,

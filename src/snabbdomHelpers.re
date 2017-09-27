@@ -1,4 +1,4 @@
-module Base = Snabbdom_base;
+module Base = SnabbdomBase;
 
 let tag a b c => Base.h a (List.append b [Base.children c]);
 let childlessTag = Base.h;

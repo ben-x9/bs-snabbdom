@@ -1,4 +1,4 @@
-module Data = Snabbdom_data;
+module Data = SnabbdomData;
 
 type t =
   Js.t {
@@ -47,7 +47,7 @@ let set_in_data path value vnode => {
 
 exception Element_with_id_not_found string;
 let from_dom_id dom_id =>
-  switch (Snabbdom_dom.get_element_by_id Snabbdom_dom.document dom_id) {
+  switch (SnabbdomDom.get_element_by_id SnabbdomDom.document dom_id) {
   | None => raise (Element_with_id_not_found dom_id)
   | Some x => of_dom_element x
   };

@@ -11,7 +11,7 @@ type transformer = t => t;
 
 let empty: unit => t;
 let set_sel: t => string => unit;
-let set_data: t => Snabbdom_data.t => unit;
+let set_data: t => SnabbdomData.t => unit;
 let set_children: t => array t => unit;
 let set_text: t => string => unit;
 let set_key: t => string => unit;
