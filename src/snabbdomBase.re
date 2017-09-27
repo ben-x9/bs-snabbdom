@@ -63,7 +63,7 @@ let textVnode t => {
   node
 };
 
-let children (newChildren: list vnode) vnode : vnode => {
+let content (newChildren: list vnode) vnode : vnode => {
   switch (VNode.getChildren vnode, VNode.getText vnode) {
   | (None, Some t) =>
     VNode.clearText vnode;

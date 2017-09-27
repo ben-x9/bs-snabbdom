@@ -51,7 +51,7 @@ let init: array snabbdomModule => patchfn;
 let h: string => list SnabbdomVnode.transformer => SnabbdomVnode.t;
 
 /* Add child vnodes */
-let children: list SnabbdomVnode.t => SnabbdomVnode.transformer;
+let content: list SnabbdomVnode.t => SnabbdomVnode.transformer;
 
 /* Adds text to the body of the node */
 let text: string => SnabbdomVnode.transformer;

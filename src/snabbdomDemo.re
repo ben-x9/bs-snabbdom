@@ -34,7 +34,7 @@ let rec many_items items i max =>
 
 let checkbox (checked: bool) onCheck (label_text: string) =>
   h "label" [
-    children [
+    content [
       h "input" [
         onChange onCheck,
         prop "type" "checkbox",
@@ -54,9 +54,9 @@ let item store s => {
     styleDelayed "line-height" "1",
     styleRemove "line-height" "0",
     styleRemove "opacity" "0",
-    children [
+    content [
       h "td" [
-        children [h "a" [prop "href" "javascript:;", onMouseMove del, text s]]
+        content [h "a" [prop "href" "javascript:;", onMouseMove del, text s]]
       ]
     ]
   ]
@@ -81,17 +81,17 @@ let view store => {
     Store.dispatch store (ToggleShow value)
   };
   h "div" [
-    children [
+    content [
       h "h1" [text ("Count: " ^ string_of_int state.count)],
       h "button" [onClick (cb Increment), text "+"],
       h "button" [onClick (cb Decrement), text "-"],
       h "p" [
-        children [h "strong" [text "bs-snabbdom"]],
+        content [h "strong" [text "bs-snabbdom"]],
         text " demo. ",
-        children [h "em" [text state.name]]
+        content [h "em" [text state.name]]
       ],
       h "div" [
-        children [
+        content [
           h
             "input"
             [
@@ -106,7 +106,7 @@ let view store => {
       h "svg" [
         attr "width" "200",
         attr "height" "200",
-        children [
+        content [
           h
             "circle"
             [attr "cx" "50", attr "cy" "50", attr "r" "30", attr "fill" "#000"]
@@ -114,11 +114,11 @@ let view store => {
       ]
     ],
     if state.show_items {
-      children [
+      content [
         h "table" [
-          children [h "tr" [children [h "td" [text "Mouse over to delete"]]]],
+          content [h "tr" [content [h "td" [text "Mouse over to delete"]]]],
           prop "border" "1",
-          children (List.map (item store) state.items)
+          content (List.map (item store) state.items)
         ]
       ]
     } else {
