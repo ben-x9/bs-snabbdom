@@ -1,6 +1,10 @@
 type element = Dom.element;
-external focus : Dom.element => unit = "focus" [@@bs.send];
+
 external document : Dom.document = "" [@@bs.val];
+
+external focus : Dom.element => unit =
+  "focus" [@@bs.send];
+
 external getElementById : Dom.document => string => option Dom.element =
   "getElementById" [@@bs.send] [@@bs.return null_to_opt];
 
@@ -10,7 +14,7 @@ external stopPropagation : Dom.event_like 'a => unit =
 external preventDefault : Dom.event_like 'a => unit =
   "preventDefault" [@@bs.send];
 
-external getTarget : Dom.event_like 'a => Dom.eventTarget_like 'a =
+external getTarget : Dom.event_like 'a => Dom.element =
   "target" [@@bs.get];
 
 external getKey : Dom.keyboardEvent => string =
@@ -19,10 +23,10 @@ external getKey : Dom.keyboardEvent => string =
 external getKeyCode : Dom.keyboardEvent => int =
   "keyCode" [@@bs.get];
 
-external getValue : Dom.eventTarget_like 'a => string =
+external getValue : Dom.element => string =
   "value" [@@bs.get];
 
-external isChecked : Dom.eventTarget_like 'a => bool =
+external isChecked : Dom.element => bool =
   "checked" [@@bs.get];
 
 external setTimeout : (unit => unit) => int => int =
