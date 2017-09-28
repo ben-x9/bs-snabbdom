@@ -4,6 +4,7 @@
 
 type element = Dom.element;
 let focus: element => unit;
+let setSelectionRange : element => int => int => unit;
 let document: Dom.document;
 let getElementById: Dom.document => string => option element;
 let stopPropagation: Dom.event_like 'a => unit;

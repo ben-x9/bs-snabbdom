@@ -5,6 +5,9 @@ external document : Dom.document = "" [@@bs.val];
 external focus : Dom.element => unit =
   "focus" [@@bs.send];
 
+external setSelectionRange : Dom.element => int => int => unit =
+  "setSelectionRange" [@@bs.send];
+
 external getElementById : Dom.document => string => option Dom.element =
   "getElementById" [@@bs.send] [@@bs.return null_to_opt];
 

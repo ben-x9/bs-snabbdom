@@ -1,5 +1,7 @@
 module VNode = SnabbdomVnode;
 
+open SnabbdomDom;
+
 let hook key cb => VNode.setInData [|"hook", key|] cb;
 let hook0 key (cb: unit => unit) => hook key cb;
 let hook1 key (cb: VNode.t => unit) => hook key cb;
@@ -19,9 +21,23 @@ let onRemove (cb: VNode.t => removeCallback => unit) => hook "remove" cb;
 
 let post cb => hook0 "post" cb;
 
-let autofocus = onInsert (fun vnode =>
+let (>>) f g x => g (f x);
+
+/**
+ * FIXME: I HAVE NO IDEA why I need to make this a higher order function but
+ * snabbdom wont keep triggering it after the first insert unless I do this. To
+ * be debugged later... (Originally there was no `onInsert` parameter so
+ * returning an anonymous function which was then immediately called was just a
+ * hack to make it work)
+ */
+let setFocus onInsert => (fun vnode => {
   switch (VNode.getElm vnode) {
-  | Some elm => SnabbdomDom.focus elm
+  | Some elm =>
+    focus elm;
+    if onInsert (setSelectionRange elm 0 (getValue elm |> String.length));
   | None => ()
-  }
-);
+  };
+});
+
+let autoFocus vnode =>
+  (onInsert (setFocus true) >> onUpdate (fun _ vnode => (setFocus false) vnode)) vnode;
